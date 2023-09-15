@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:like_button/like_button.dart';
 
 class SecondPage extends StatefulWidget {
   const SecondPage({super.key, required this.title});
+
 
   final String title;
 
@@ -44,6 +46,7 @@ class _MyHomePageState extends State<SecondPage> {
       throw Exception('Не удалось получить данные о погоде');
     }
   }
+  double sliderProgress = 20;
   void openMenu(){
     Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
       return Scaffold(
@@ -55,6 +58,16 @@ class _MyHomePageState extends State<SecondPage> {
               Navigator.pushNamedAndRemoveUntil(context, '/todo', (route) => false);
             }, child: const Text('Drink list')),
             const Padding(padding: EdgeInsets.only(left: 15)),
+            Slider(
+                value: sliderProgress,
+                max: 100,
+                divisions: 5,
+                label: sliderProgress.round().toString(),
+                onChanged: (double value) {
+                  setState(() {
+                    sliderProgress = value;
+                  });
+                }),
           ],
         ),
       );
@@ -111,6 +124,22 @@ class _MyHomePageState extends State<SecondPage> {
                         }
                       },
                     ),
+                    LikeButton(
+                      size: 40.0,
+                      circleColor: const CircleColor(start: Colors.red, end: Colors.yellow),
+                      bubblesColor: const BubblesColor(
+                          dotPrimaryColor: Colors.red,
+                          dotSecondaryColor: Colors.yellow,
+                          dotLastColor: Colors.green,
+                          dotThirdColor: Colors.blue),
+                      likeBuilder: (bool isLiked) {
+                        return Icon(
+                          Icons.thumb_up_alt_rounded,
+                          color: isLiked ? Colors.red : Colors.grey,
+                          size: 50.0,
+                        );
+                      },
+                    ),
                   ],
                 ),
               ],
@@ -149,7 +178,7 @@ class _MyHomePageState extends State<SecondPage> {
               children: [
                 IconButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/todo');
+                    Navigator.pushNamedAndRemoveUntil(context, '/shop', (route) => false);
                   },
                   icon: const Icon(Icons.skip_next),
                 ),

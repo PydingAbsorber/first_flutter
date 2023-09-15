@@ -1,9 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:first_flutter/pages/home.dart';
+import 'package:first_flutter/pages/profile.dart';
+import 'package:first_flutter/pages/profilePage.dart';
+import 'package:first_flutter/pages/shop.dart';
 import 'package:flutter/material.dart';
 import 'package:first_flutter/pages/secondPage.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,10 +29,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         useMaterial3: true,
       ),
-      initialRoute: '/',
+      initialRoute: '/shop',
       routes: {
-        '/': (context) => const SecondPage(title: 'Home'),
-        '/todo': (context) => const Home(key: Key('Task List')),
+        '/shop': (context) => const Shop(key: Key('Shop'), title: 'Shop',),
+        '/profile': (context) => const AuthPage(key: Key('Profile'),),
       },
     );
   }
